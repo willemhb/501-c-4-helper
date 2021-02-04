@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from dsa import db
 from dsa.auth.models import Member
-from dsa.auth.util import login_required, role_required, csrf_view, render_form
+from dsa.auth.utils import login_required, role_required, csrf_view, render_form
 
 
 bp = Blueprint("website", __name__)

@@ -32,8 +32,12 @@ nav ul li a , nav ul li span {
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+    width: 50%;
+    height: 60%;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
 }
 
 input[type=text], input[type=password], input[type=email] {
