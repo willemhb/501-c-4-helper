@@ -1,0 +1,9 @@
+{% extends 'form.html' %}
+
+{% from 'forms.html' import input, submit %}
+
+{% block fields %}
+{{ input('username',required=true, placeholder='username') }}
+{{ input('password', required=true, placeholder='password') }}
+{{ submit(msg='log in') }}
+{% endblock %}

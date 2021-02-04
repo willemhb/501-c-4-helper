@@ -1,0 +1,18 @@
+
+{% macro csrf() -%}
+    <input type="text" name="csrf_token" value={{ csrf_token }} hidden>
+{% endmacro %}
+
+{% macro input(name, required=false, value='', placeholder='', type='text') -%}
+    <input type="{{ type }}" value="{{ value|e }}" name="{{ name }}" id="{{ name }}" {% if required %}required{% endif %}>
+{% endmacro %}
+
+{% macro submit(msg) -%}
+    <input type="submit" value="{{ msg|e }}">
+{% endmacro %}    
+
+{% macro textarea(name, value='', rows=10, cols=40) -%}
+    <textarea name="{{ name }}" id="{{ name }}" rows="{{ rows }}" cols="{{ cols }}">
+      {{ value|e }}
+    </textarea>
+{% endmacro %}

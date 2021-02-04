@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{# forms.html is helper macros, this is a default form template that includes the csrf token #}
+
+{% from 'forms.html' import csrf with context %}
+
+{% block header %}
+<h1>{% block title %}{{ title }}{% endblock %}</h1>
+{% endblock %}
+
+
+{% block content %}
+<form method="post">
+  {{ csrf() }}
+  {% block fields %}{% endblock %}
+</form>
+{% endblock %}

@@ -1,0 +1,15 @@
+# emacs junk
+
+*~
+
+# local config
+
+.flaskenv
+.env
+*.ini
+
+# virtual environment
+venv/
+
+# bytecode
+__pycache__/
