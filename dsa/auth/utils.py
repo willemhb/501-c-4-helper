@@ -5,7 +5,15 @@ from secrets import token_urlsafe, compare_digest
 
 def csrf_view(view):
     """
-    Wraps views that send and process forms with .
+    Wraps views that send and process forms.
+    
+    If the request method is 'GET', generates a CSRF token and saves it in the session.
+    
+    If the request method is 'POST', it gets the hidden "csrf_token" form input and compares it
+    against the saved token. If the saved token matches the token in the form, it calls the wrapped view
+    function. Otherwise, it aborts with a 403 status code.
+
+    Before returning, it deletes the "csrf_token" key from the session to prevent leakage.
     """
     @wraps(view)
     def wrapper(*args,**kwargs):
