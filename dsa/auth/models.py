@@ -15,10 +15,18 @@ class RoleEnum(Enum):
     administrator = "administrator"
 
 
-class MemberRole(db.Model):
-    id = db.Column(db.Integer,primary_key=True)
-    role = db.Column(db.Enum(RoleEnum))
-    member_id = db.Column(db.Integer, db.ForeignKey('member.id'))
+class DSAModel(db.Model):
+    """
+    Base class, adds basic behaviors to the model.
+    """
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        return
+
+    @property
+    def form(self):
+        pass
 
 
 # a member of chapelboro DSA
@@ -49,9 +57,7 @@ class Member(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-        new_user_role = MemberRole(role="member",member_id=self.id)
-        db.session.add(new_user_role)
-        db.session.commit()
+        new_user_role = MemberRole(role="member", member_id=self.id)
         self.roles.append(new_user_role)
         db.session.commit()
         return
@@ -62,3 +68,12 @@ class Member(db.Model):
 
     def __repr__(self):
         return f"<Member name={self.first_name} email={self.email}>"
+
+
+class MemberRole(db.Model):
+    """
+    Rows in this table represent the roles posessed by a member.
+    """
+    id = db.Column(db.Integer,primary_key=True)
+    role = db.Column(db.Enum(RoleEnum))
+    member_id = db.Column(db.Integer, db.ForeignKey('member.id'))

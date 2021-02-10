@@ -1,6 +1,8 @@
 from flask import g, current_app, redirect, abort, render_template, request, session
 from functools import wraps
 from secrets import token_urlsafe, compare_digest
+from hashlib import sha256
+import hmac
 
 
 def csrf_view(view):
@@ -25,7 +27,7 @@ def csrf_view(view):
             form_tok = request.form["csrf_token"]
             sess_tok = session["csrf_token"]
 
-            if compare_digest(form_tok,sess_tok):
+            if compare_digest(form_tok,hmac.digest(g.config["SECRET_KEY"],sha256)):
                 del session["csrf_token"]
                 return view(*args,**kwargs)
 
@@ -39,7 +41,8 @@ def render_form(tplt, **ctx):
     """
     Adds csrf token to the rendering context.
     """
-    return render_template(tplt,csrf_token=session["csrf_token"],**ctx)
+    t = hmac.digest(g.config["SECRET_KEY"],session["csrf_token"],sha256)
+    return render_template(tplt, csrf_token=t, **ctx)
 
 
 
